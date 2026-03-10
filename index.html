@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Yara ❤️</title>
-
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
 <style>
 body{
     margin:0;
@@ -15,6 +15,7 @@ body{
     overflow-y:auto;
 }
 
+/* ---------------- Login ---------------- */
 .overlay{
     background:rgba(0,0,0,0.75);
     width:100%;
@@ -64,7 +65,21 @@ button:hover{
     transform:scale(1.05);
 }
 
-/* ------------------- Main Page ------------------- */
+/* hearts */
+.heart{
+    position:fixed;
+    bottom:-20px;
+    color:#ff4da6;
+    animation: floatHearts linear forwards;
+    pointer-events:none;
+}
+
+@keyframes floatHearts{
+0%{transform:translateY(0);opacity:1;}
+100%{transform:translateY(-110vh);opacity:0;}
+}
+
+/* ---------------- Main Page ---------------- */
 #main{
     display:none;
     padding:20px 0;
@@ -136,7 +151,7 @@ button:hover{
     transform:scale(1.1);
 }
 
-/* ------------------- Surprise Page ------------------- */
+/* ---------------- Surprise Page ---------------- */
 #surprise{
     display:none;
     padding:20px;
@@ -171,6 +186,54 @@ button:hover{
     font-size:20px;
     color:#ffd6e7;
 }
+
+/* ---------------- LOVE PAGE ---------------- */
+#lovePage{
+    display:none;
+    background:black;
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    overflow:hidden;
+}
+
+#loveCircle{
+    width:300px;
+    height:150px;
+    border-radius:150px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:60px;
+    color:#ff0033;
+    font-family:'Great Vibes',cursive;
+    text-align:center;
+    cursor:pointer;
+}
+
+canvas{
+    position:absolute;
+}
+
+.loveText{
+    position:fixed;
+    bottom:-50px;
+    color:red;
+    font-size:30px;
+    animation:loveUp 4s linear forwards;
+    pointer-events:none;
+}
+
+@keyframes loveUp{
+0%{transform:translateY(0);opacity:1;}
+100%{transform:translateY(-120vh);opacity:0;}
+}
+
 </style>
 </head>
 
@@ -187,6 +250,7 @@ button:hover{
 
 <!-- ------------------- Main ------------------- -->
 <div id="main">
+
 <h1>Yara</h1>
 
 <div class="card">
@@ -204,22 +268,27 @@ button:hover{
 </audio>
 
 <div class="timer">
+
 <div class="box">
 <div class="number" id="days">0</div>
 يوم
 </div>
+
 <div class="box">
 <div class="number" id="hours">0</div>
 ساعة
 </div>
+
 <div class="box">
 <div class="number" id="minutes">0</div>
 دقيقة
 </div>
+
 <div class="box">
 <div class="number" id="seconds">0</div>
 ثانية
 </div>
+
 </div>
 
 <div class="interactive-buttons">
@@ -228,37 +297,52 @@ button:hover{
 <button onclick="newMessage()">رسالة جديدة</button>
 </div>
 
-<div class="memory-gallery" id="gallery">
-<img src="photo1.jpg" alt="ذكرى 1">
-<img src="photo2.jpg" alt="ذكرى 2">
-<img src="photo3.jpg" alt="ذكرى 3">
+<div class="memory-gallery">
+<img src="photo1.jpg">
+<img src="photo2.jpg">
+<img src="photo3.jpg">
 </div>
 
-<!-- ------------------- Surprise Button ------------------- -->
 <div style="margin-top:40px;">
 <button onclick="showSurprise()">وهنا مفاجأة ليكي 🤓💗</button>
 </div>
+
+<div style="margin-top:20px;">
+<button onclick="showLove()">وهنا شويه دلع ليكي 🤓💗</button>
+</div>
+
 </div>
 
 <!-- ------------------- Surprise Page ------------------- -->
 <div id="surprise">
+
 <div class="surprise-title">الورد اللي بتحبيه 🤓💗</div>
+
 <div class="surprise-gallery">
-<div><span> 𝑻𝒖𝒍𝒊𝒑 𝑭𝒍𝒐𝒘𝒆𝒓</span><img src="rose1.jpg"></div>
-<div><span> </span><img src="rose2.jpg"></div>
-<div><span> </span><img src="rose3.jpg"></div>
-<div><span> </span><img src="rose4.jpg"></div>
-<div><span> </span><img src="rose5.jpg"></div>
-<div><span> </span><img src="rose6.jpg"></div>
-<div><span> </span><img src="rose7.jpg"></div>
-<div><span></span><img src="rose8.jpg"></div>
-<div><span> </span><img src="rose9.jpg"></div>
-<div><span>  </span><img src="rose10.jpg"></div>
+
+<div><span>𝑻𝒖𝒍𝒊𝒑 𝑭𝒍𝒐𝒘𝒆𝒓</span><img src="rose1.jpg"></div>
+<div><img src="rose2.jpg"></div>
+<div><img src="rose3.jpg"></div>
+<div><img src="rose4.jpg"></div>
+<div><img src="rose5.jpg"></div>
+<div><img src="rose6.jpg"></div>
+<div><img src="rose7.jpg"></div>
+<div><img src="rose8.jpg"></div>
+<div><img src="rose9.jpg"></div>
+<div><img src="rose10.jpg"></div>
+
 </div>
 </div>
 
+<!-- ------------------- LOVE PAGE ------------------- -->
+<div id="lovePage">
+<h1 id="loveCircle">I Love You Yara</h1>
+<canvas id="canvas"></canvas>
+<audio id="loveAudio" src="love.mp3" autoplay></audio>
+</div>
+
 <script>
-// ------------------- Login -------------------
+/* ------------------- Login ------------------- */
 function login(){
     let password=document.getElementById("pass").value;
     if(password.length>0){
@@ -267,17 +351,15 @@ function login(){
     }
 }
 
-// ------------------- Timer -------------------
+/* ------------------- Timer ------------------- */
 let startDate=new Date("2025-04-25T09:00:00");
 function updateTimer(){
     let now=new Date();
     let diff=now-startDate;
-
     let days=Math.floor(diff/(1000*60*60*24));
     let hours=Math.floor((diff/(1000*60*60))%24);
     let minutes=Math.floor((diff/(1000*60))%60);
     let seconds=Math.floor((diff/1000)%60);
-
     document.getElementById("days").innerText=days;
     document.getElementById("hours").innerText=hours;
     document.getElementById("minutes").innerText=minutes;
@@ -285,7 +367,7 @@ function updateTimer(){
 }
 setInterval(updateTimer,1000);
 
-// ------------------- Hearts -------------------
+/* ------------------- Hearts ------------------- */
 function createHeart(){
     let heart=document.createElement("div");
     heart.className="heart";
@@ -293,15 +375,14 @@ function createHeart(){
     heart.style.left=Math.random()*100+"vw";
     heart.style.fontSize=(Math.random()*20+10)+"px";
     heart.style.animationDuration=(Math.random()*3+3)+"s";
-    document.getElementById("login").appendChild(heart);
+    document.body.appendChild(heart);
     setTimeout(()=>{ heart.remove(); },6000);
 }
 setInterval(createHeart,400);
 
-// ------------------- Interactive Buttons -------------------
+/* ------------------- Interactive Buttons ------------------- */
 function changeBackground(){
     let colors=["url('lips.jpg')","url('bg2.jpg')","url('bg3.jpg')"];
-    let current=document.body.style.backgroundImage;
     let next=colors[Math.floor(Math.random()*colors.length)];
     document.body.style.backgroundImage=next;
 }
@@ -314,7 +395,7 @@ function bigHearts(){
         heart.style.left=Math.random()*100+"vw";
         heart.style.fontSize=(Math.random()*30+15)+"px";
         heart.style.animationDuration=(Math.random()*2+2)+"s";
-        document.getElementById("main").appendChild(heart);
+        document.body.appendChild(heart);
         setTimeout(()=>heart.remove(),5000);
     }
 }
@@ -322,23 +403,79 @@ function bigHearts(){
 function newMessage(){
     let card=document.querySelector(".card");
     const messages=[
-        "بحبك يا عمري💗  ",
-        "يا أحلى عيووون
-        
-        ",
+        "بحبك يا عمري💗",
+        "يا أحلى عيووون",
         "أنت أجمل حاجة حصلتلي في حياتي 🌹",
-        " 𝐘𝐨𝐮 𝐚𝐫𝐞 𝐞𝐧𝐨𝐮𝐠𝐡 𝐟𝐨𝐫 𝐦𝐞 💖🌷"
-        " بس فيه حاجه مستغربها بعيد عن كل دا انت ازاي في اولاد صجر انت مكانك 🤓✋🏿في قلبي  "
+        "𝐘𝐨𝐮 𝐚𝐫𝐞 𝐞𝐧𝐨𝐮𝐠𝐡 𝐟𝐨𝐫 𝐦𝐞 💖🌷",
+        "بس فيه حاجه مستغربها بعيد عن كل دا انت ازاي في اولاد صجر انت مكانك 🤓✋🏿في قلبي"
     ];
     let msg=messages[Math.floor(Math.random()*messages.length)];
     card.innerHTML=msg;
 }
 
-// ------------------- Surprise -------------------
+/* ------------------- Surprise ------------------- */
 function showSurprise(){
     document.getElementById("main").style.display="none";
     document.getElementById("surprise").style.display="block";
 }
+
+/* ------------------- LOVE PAGE ------------------- */
+function showLove(){
+    document.getElementById("main").style.display="none";
+    document.getElementById("lovePage").style.display="flex";
+
+    // تشغيل الصوت مباشرة
+    const audio = document.getElementById("loveAudio");
+    audio.play();
+
+    startLoveAnimation();
+}
+
+/* Canvas hearts for LOVE PAGE */
+function startLoveAnimation(){
+    const canvas=document.getElementById("canvas");
+    const ctx=canvas.getContext("2d");
+
+    canvas.width=window.innerWidth;
+    canvas.height=window.innerHeight;
+
+    let heartsArr=[];
+
+    class Heart{
+        constructor(){
+            this.x=Math.random()*canvas.width;
+            this.y=Math.random()*canvas.height;
+            this.size=Math.random()*8+4;
+            this.speedY=Math.random()*1+0.3;
+        }
+        draw(){
+            ctx.fillStyle="red";
+            ctx.beginPath();
+            ctx.moveTo(this.x,this.y);
+            ctx.arc(this.x-this.size/2,this.y-this.size/2,this.size/2,0,Math.PI);
+            ctx.arc(this.x+this.size/2,this.y-this.size/2,this.size/2,0,Math.PI);
+            ctx.lineTo(this.x,this.y+this.size);
+            ctx.fill();
+        }
+        update(){
+            this.y-=this.speedY;
+            if(this.y<0){ this.y=canvas.height; this.x=Math.random()*canvas.width; }
+            this.draw();
+        }
+    }
+
+    for(let i=0;i<120;i++){
+        heartsArr.push(new Heart());
+    }
+
+    function animate(){
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        heartsArr.forEach(h=>h.update());
+        requestAnimationFrame(animate);
+    }
+    animate();
+}
+
 </script>
 </body>
 </html>
